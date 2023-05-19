@@ -182,6 +182,7 @@ Window {
         resultLabel.text = "Result: " + result
         inputField.text = ""
     }
+    
     function calculateResult() {
         var expression = inputField.text
 
