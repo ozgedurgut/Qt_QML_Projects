@@ -1,6 +1,8 @@
 import QtQuick 2.6
 import QtQuick.Controls 2.2
 import QtQuick.Layouts 1.3
+import QtQuick.Controls.Material 2.1
+import QtQuick.Window 2.3
 import "."
 ApplicationWindow {
     visible: true
@@ -21,7 +23,6 @@ ApplicationWindow {
 
             RowLayout {
                 spacing: 10
-
                 Text {
                     text: "To-Do List"
                     font.pixelSize: 15
@@ -29,10 +30,7 @@ ApplicationWindow {
                     font.weight: Font.Thin
                     anchors.verticalCenter: parent.verticalCenter
                 }
-
-
             }
-
 
             RowLayout {
                 TextField {
@@ -51,9 +49,8 @@ ApplicationWindow {
                 }
             }
 
-
-
             MyButton {
+                id: root
                 text: "Add Task"
                 onClicked: {
                     if (taskInput.text !== "") {
@@ -70,7 +67,7 @@ ApplicationWindow {
 
                 ListView {
                     width: parent.width
-                    contentHeight: childrenRect.height
+                    contentHeight: contentItem.childrenRect.height
 
                     model: ListModel {
                         id: taskListModel
@@ -85,21 +82,43 @@ ApplicationWindow {
                             width: parent.width
                             height: parent.height
 
-                            Text {
-                                text: index + 1 + ". " + model.task + " (Time: " + model.time + ")"
-                                anchors.verticalCenter: parent.verticalCenter
-                                anchors.left: parent.left
-                                leftPadding: 5
-                                font.pixelSize: 16
-                                color: done ? "gray" : "black"
-                                elide: Text.ElideRight
-                            }
-
-                            MouseArea {
+                            Row {
                                 anchors.fill: parent
-                                onClicked: {
-                                    done = !done
-                                    taskListModel.setProperty(index, "done", done)
+                                spacing: 5
+
+                                MouseArea {
+                                    width: 20
+                                    height: parent.height
+                                    onClicked: {
+                                        done = !done
+                                        taskListModel.setProperty(index, "done", done)
+                                    }
+
+                                    Rectangle {
+                                        width: parent.width
+                                        height: parent.height
+                                        radius: 2
+                                        border.color: "gray"
+                                        border.width: 1
+                                        visible: true
+                                        antialiasing: true
+
+                                        Rectangle {
+                                            width: 10
+                                            height: 10
+                                            anchors.centerIn: parent
+                                            color: done ? "lightgreen" : "red"
+                                        }
+                                    }
+                                }
+
+                                Text {
+                                    text: index + 1 + ". " + model.task + " (Time: " + model.time + ")"
+                                    anchors.verticalCenter: parent.verticalCenter
+                                    leftPadding: 5
+                                    font.pixelSize: 16
+                                    color: done ? "gray" : "black"
+                                    elide: Text.ElideRight
                                 }
                             }
                         }
