@@ -1,17 +1,21 @@
 import QtQuick 2.6
 import QtQuick.Controls 2.2
 import QtQuick.Layouts 1.3
-import QtQuick.Controls.Material 2.1
 import QtQuick.Window 2.3
 import QtQuick.Dialogs 1.2
 
 ApplicationWindow {
     visible: true
     width: 400
-    height: 400
+    height: 600
     title: "User Login"
 
     property bool isLoggedIn: false
+    property var users : [
+        { username: "buttercup", password: "1234" },
+        { username: "blossom", password: "1234" },
+        { username: "bubbles", password: "1234" }
+    ];
 
     StackView {
         id: stackView
@@ -67,33 +71,37 @@ ApplicationWindow {
                         }
                         onClicked: {
 
-                            if (usernameInput.text.length >= 3 && passwordInput.text.length >= 3) {
+                            var validUser = users.find(function(user) {
+                                return user.username === usernameInput.text && user.password === passwordInput.text;
+                            });
 
-                                if (usernameInput.text === "buttercup" && passwordInput.text === "1234") {
-                                    console.log("Login successful");
-                                    stackView.push(buttercupComponent);
-                                } else if (usernameInput.text === "blossom" && passwordInput.text === "1234") {
-                                    console.log("Login successful");
-                                    stackView.push(blossomComponent);
-                                }  else if (usernameInput.text === "bubbles" && passwordInput.text === "1234") {
-                                    console.log("Login successful");
-                                    stackView.push(bubblesComponent);
-                                }
-                                else {
-                                    console.log("Login failed");
-                                    messageBox.text = "Invalid username or password.";
-                                    messageBox.visible = true;
-                                }
-
-                            } else{
-                                console.log("Username and password must be at least 3 characters long");
-                                messageBox.text = "Username and password must be at least 3 characters long.";
+                            if (validUser) {
+                                console.log("Login successful");
+                                stackView.push(welcomePageComponent(validUser.username));
+                            } else {
+                                console.log("Login failed");
+                                messageBox.text = "Invalid username or password.";
                                 messageBox.visible = true;
                             }
-                            usernameInput.text=""
-                            passwordInput.text=""
+                            usernameInput.text = "";
+                            passwordInput.text = "";
                         }
                     }
+
+                    Button {
+                        text: "Sign in"
+                        background: Rectangle {
+                            color: "#18317c"
+                        }
+                        contentItem: Text {
+                            text: parent.text
+                            color: "white"
+                        }
+                        onClicked: {
+                            stackView.push(signinComponent);
+                        }
+                    }
+
                     MessageDialog {
                         id: messageBox
                         title: "Warning"
@@ -107,101 +115,142 @@ ApplicationWindow {
             }
         }
 
-
-        Component {
-            id: buttercupComponent
-            Rectangle {
-                color: "#8dff8b"
+        Component{
+            id: welcomePageComponent
+            Rectangle{
+                color: "#dfcef2"
                 anchors.fill: parent
 
-                Label {
-                    text: "Welcome Buttercup!"
-                    font.pixelSize: 24
+                ColumnLayout {
                     anchors.centerIn: parent
-                }
-                Item {
-                    anchors.horizontalCenter: parent.horizontalCenter
-                    anchors.bottom: parent.bottom
-                    anchors.bottomMargin: 75
-                    Button {
-                        text: "Back"
-                        background: Rectangle {
-                            color: "#660066"
-                        }
-                        contentItem: Text {
-                            text: parent.text
-                            color: "white"
-                        }
-                        onClicked: {
+                    spacing: 10
+                    Text {
+                        text: "Welcome, " + username
+                        font.pixelSize: 20
+                        color: "black"
+                    }
 
-                            console.log("back");
-                            stackView.push(loginPageComponent);
+                    Item {
+                        anchors.horizontalCenter: parent.horizontalCenter
+                        Button {
+                            text: "Logout"
+                            background: Rectangle {
+                                color: "#18317c"
+                            }
+                            contentItem: Text {
+                                text: parent.text
+                                color: "white"
+                            }
+                            onClicked: {
+                                stackView.pop();
+                            }
                         }
                     }
                 }
             }
         }
+
         Component {
-            id: blossomComponent
+            id: signinComponent
             Rectangle {
-                color: "#ff87d6"
+                color: "#dfcef2"
                 anchors.fill: parent
 
-                Label {
-                    text: "Welcome Blossom!"
-                    font.pixelSize: 24
+                ColumnLayout {
                     anchors.centerIn: parent
-                }
-                Item {
-                    anchors.horizontalCenter: parent.horizontalCenter
-                    anchors.bottom: parent.bottom
-                    anchors.bottomMargin: 75
-                    Button {
-                        text: "Back"
-                        background: Rectangle {
-                            color: "#660066"
-                        }
-                        contentItem: Text {
-                            text: parent.text
-                            color: "white"
-                        }
-                        onClicked: {
+                    spacing: 10
 
-                            console.log("back");
-                            stackView.push(loginPageComponent);
+                    TextField {
+                        id: username1Input
+                        placeholderText: "Username"
+                        Layout.fillWidth: true
+                        height: 40
+                    }
+
+                    TextField {
+                        id: password1Input
+                        placeholderText: "Password"
+                        Layout.fillWidth: true
+                        height: 40
+                        echoMode: TextInput.Password
+                    }
+
+                    TextField {
+                        id: password2Input
+                        placeholderText: "Confirm Password"
+                        Layout.fillWidth: true
+                        height: 40
+                        echoMode: TextInput.Password
+                    }
+
+                    Item {
+                        anchors.horizontalCenter: parent.horizontalCenter
+                        anchors.bottom: parent.bottom
+                        anchors.bottomMargin: 75
+                        Button {
+                            text: "Back"
+                            background: Rectangle {
+                                color: "#660066"
+                            }
+                            contentItem: Text {
+                                text: parent.text
+                                color: "white"
+                            }
+                            onClicked: {
+                                stackView.pop();
+                            }
                         }
                     }
-                }
-            }
-        }
-        Component {
-            id: bubblesComponent
-            Rectangle {
-                color: "#62f3ff"
-                anchors.fill: parent
 
-                Label {
-                    text: "Welcome Bubbles!"
-                    font.pixelSize: 24
-                    anchors.centerIn: parent
-                }
-                Item {
-                    anchors.horizontalCenter: parent.horizontalCenter
-                    anchors.bottom: parent.bottom
-                    anchors.bottomMargin: 75
-                    Button {
-                        text: "Back"
-                        background: Rectangle {
-                            color: "#660066"
-                        }
-                        contentItem: Text {
-                            text: parent.text
-                            color: "white"
-                        }
-                        onClicked: {
+                    Item {
+                        anchors.horizontalCenter: parent.horizontalCenter
+                        anchors.bottom: parent.bottom
+                        anchors.bottomMargin: 75
+                        Button {
+                            text: "Sign Up"
+                            background: Rectangle {
+                                color: "#18317c"
+                            }
+                            contentItem: Text {
+                                text: parent.text
+                                color: "white"
+                            }
+                            onClicked: {
+                                var inputUsername = username1Input.text;
+                                var inputPassword = password1Input.text;
+                                var confirmPassword = password2Input.text;
 
-                            console.log("back");
-                            stackView.push(loginPageComponent);
+                                if (inputUsername.length >= 3 && inputPassword.length >= 3) {
+                                    if (inputPassword === confirmPassword) {
+                                        console.log("Successful sign up");
+                                        var newUser = { username: inputUsername, password: inputPassword };
+                                        users.push(newUser);
+                                        stackView.push(loginPageComponent.createObject(stackView, { "username": newUser.username }));
+                                    } else {
+                                        console.log("Passwords do not match");
+                                        messageBox.text = "Passwords do not match.";
+                                        messageBox.visible = true;
+                                    }
+                                } else {
+                                    console.log("Username and password must be at least 3 characters long");
+                                    messageBox.text = "Username and password must be at least 3 characters long.";
+                                    messageBox.visible = true;
+                                }
+
+                                username1Input.text = "";
+                                password1Input.text = "";
+                                password2Input.text = "";
+                            }
+                        }
+                    }
+
+                    MessageDialog {
+                        id: messageBox
+                        title: "Warning"
+                        text: ""
+                        visible: false
+                        onAccepted: {
+                            messageBox.visible = false;
                         }
                     }
                 }
