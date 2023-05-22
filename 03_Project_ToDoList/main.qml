@@ -3,23 +3,20 @@ import QtQuick.Controls 2.2
 import QtQuick.Layouts 1.3
 import QtQuick.Controls.Material 2.1
 import QtQuick.Window 2.3
-import "."
+
 ApplicationWindow {
     visible: true
     width: 400
     height: 600
     title: "To-Do List"
+
     Rectangle {
         color: "#F2F2F2"
         anchors.fill: parent
 
-        Column {
+        ColumnLayout {
             anchors.fill: parent
             spacing: 10
-            leftPadding: 10
-            rightPadding: 10
-            topPadding: 10
-            bottomPadding: 10
 
             RowLayout {
                 spacing: 10
@@ -33,10 +30,11 @@ ApplicationWindow {
             }
 
             RowLayout {
+                spacing: 10
                 TextField {
                     id: taskInput
                     placeholderText: "Enter a task"
-                    Layout.preferredWidth: parent.width - timeInput.width - spacing
+                    Layout.fillWidth: true
                     height: 40
                 }
 
@@ -47,27 +45,26 @@ ApplicationWindow {
                     Layout.maximumWidth: 100
                     height: 40
                 }
-            }
 
-            MyButton {
-                id: root
-                text: "Add Task"
-                onClicked: {
-                    if (taskInput.text !== "") {
-                        taskListModel.append({ task: taskInput.text, done: false, time: timeInput.text })
-                        taskInput.text = ""
-                        timeInput.text = ""
+                MyButton {
+                    text: "Add Task"
+                    onClicked: {
+                        if (taskInput.text !== "") {
+                            taskListModel.append({ task: taskInput.text, done: false, time: timeInput.text })
+                            taskInput.text = ""
+                            timeInput.text = ""
+                        }
                     }
                 }
             }
 
             ScrollView {
+                Layout.fillHeight: true
                 width: parent.width
-                height: parent.height - taskInput.height - root.height
 
                 ListView {
                     width: parent.width
-                    contentHeight: contentItem.childrenRect.height
+                    height: contentHeight
 
                     model: ListModel {
                         id: taskListModel
@@ -82,33 +79,15 @@ ApplicationWindow {
                             width: parent.width
                             height: parent.height
 
-                            Row {
+                            RowLayout {
                                 anchors.fill: parent
                                 spacing: 5
 
-                                MouseArea {
-                                    width: 20
-                                    height: parent.height
+                                CheckBox {
+                                    id: doneCheckBox
+                                    checked: done
                                     onClicked: {
-                                        done = !done
-                                        taskListModel.setProperty(index, "done", done)
-                                    }
-
-                                    Rectangle {
-                                        width: parent.width
-                                        height: parent.height
-                                        radius: 2
-                                        border.color: "gray"
-                                        border.width: 1
-                                        visible: true
-                                        antialiasing: true
-
-                                        Rectangle {
-                                            width: 10
-                                            height: 10
-                                            anchors.centerIn: parent
-                                            color: done ? "lightgreen" : "red"
-                                        }
+                                        taskListModel.setProperty(index, "done", doneCheckBox.checked)
                                     }
                                 }
 
@@ -119,6 +98,13 @@ ApplicationWindow {
                                     font.pixelSize: 16
                                     color: done ? "gray" : "black"
                                     elide: Text.ElideRight
+                                }
+
+                                MyButton {
+                                    text: "Delete"
+                                    onClicked: {
+                                        taskListModel.remove(index)
+                                    }
                                 }
                             }
                         }
