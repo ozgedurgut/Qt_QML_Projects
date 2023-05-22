@@ -101,6 +101,26 @@ ApplicationWindow {
                     font.pixelSize: 24
                     anchors.centerIn: parent
                 }
+                Item {
+                    anchors.horizontalCenter: parent.horizontalCenter
+                    anchors.bottom: parent.bottom
+                    anchors.bottomMargin: 75
+                    Button {
+                        text: "Back"
+                        background: Rectangle {
+                            color: "#660066"
+                        }
+                        contentItem: Text {
+                            text: parent.text
+                            color: "white"
+                        }
+                        onClicked: {
+
+                            console.log("back");
+                            stackView.push(loginPageComponent);
+                        }
+                    }
+                }
             }
         }
         Component {
@@ -114,6 +134,26 @@ ApplicationWindow {
                     font.pixelSize: 24
                     anchors.centerIn: parent
                 }
+                Item {
+                    anchors.horizontalCenter: parent.horizontalCenter
+                    anchors.bottom: parent.bottom
+                    anchors.bottomMargin: 75
+                    Button {
+                        text: "Back"
+                        background: Rectangle {
+                            color: "#660066"
+                        }
+                        contentItem: Text {
+                            text: parent.text
+                            color: "white"
+                        }
+                        onClicked: {
+
+                            console.log("back");
+                            stackView.push(loginPageComponent);
+                        }
+                    }
+                }
             }
         }
         Component {
@@ -126,6 +166,26 @@ ApplicationWindow {
                     text: "Welcome Bubbles!"
                     font.pixelSize: 24
                     anchors.centerIn: parent
+                }
+                Item {
+                    anchors.horizontalCenter: parent.horizontalCenter
+                    anchors.bottom: parent.bottom
+                    anchors.bottomMargin: 75
+                    Button {
+                        text: "Back"
+                        background: Rectangle {
+                            color: "#660066"
+                        }
+                        contentItem: Text {
+                            text: parent.text
+                            color: "white"
+                        }
+                        onClicked: {
+
+                            console.log("back");
+                            stackView.push(loginPageComponent);
+                        }
+                    }
                 }
             }
         }
