@@ -3,6 +3,7 @@ import QtQuick.Controls 2.2
 import QtQuick.Layouts 1.3
 import QtQuick.Controls.Material 2.1
 import QtQuick.Window 2.3
+import QtQuick.Dialogs 1.2
 
 ApplicationWindow {
     visible: true
@@ -15,9 +16,7 @@ ApplicationWindow {
     StackView {
         id: stackView
         anchors.fill: parent
-
         initialItem: loginPageComponent
-
 
         Component {
             id: loginPageComponent
@@ -67,22 +66,41 @@ ApplicationWindow {
                             color: "white"
                         }
                         onClicked: {
-                            if (usernameInput.text === "buttercup" && passwordInput.text === "1234") {
-                                console.log("Login successful");
-                                stackView.push(buttercupComponent);
-                            } else if (usernameInput.text === "blossom" && passwordInput.text === "1234") {
-                                console.log("Login successful");
-                                stackView.push(blossomComponent);
-                            }  else if (usernameInput.text === "bubbles" && passwordInput.text === "1234") {
-                                console.log("Login successful");
-                                stackView.push(bubblesComponent);
+
+                            if (usernameInput.text.length >= 3 && passwordInput.text.length >= 3) {
+
+                                if (usernameInput.text === "buttercup" && passwordInput.text === "1234") {
+                                    console.log("Login successful");
+                                    stackView.push(buttercupComponent);
+                                } else if (usernameInput.text === "blossom" && passwordInput.text === "1234") {
+                                    console.log("Login successful");
+                                    stackView.push(blossomComponent);
+                                }  else if (usernameInput.text === "bubbles" && passwordInput.text === "1234") {
+                                    console.log("Login successful");
+                                    stackView.push(bubblesComponent);
+                                }
+                                else {
+                                    console.log("Login failed");
+                                    messageBox.text = "Invalid username or password.";
+                                    messageBox.visible = true;
+                                }
+
+                            } else{
+                                console.log("Username and password must be at least 3 characters long");
+                                messageBox.text = "Username and password must be at least 3 characters long.";
+                                messageBox.visible = true;
                             }
-
-
-                            else {
-                                console.log("Login failed");
-                            }
-
+                            usernameInput.text=""
+                            passwordInput.text=""
+                        }
+                    }
+                    MessageDialog {
+                        id: messageBox
+                        title: "Warning"
+                        text: ""
+                        visible: false
+                        onAccepted: {
+                            messageBox.visible = false;
                         }
                     }
                 }
