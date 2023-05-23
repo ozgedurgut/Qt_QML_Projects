@@ -25,8 +25,11 @@ ApplicationWindow {
         Component {
             id: firstPageComponent
             Rectangle {
-                color: "#bfcef9"
                 anchors.fill: parent
+                gradient: Gradient {
+                    GradientStop { position: 0.0; color: "#FFFAFA" }
+                    GradientStop { position: 1.0; color: "#FF69B4" }
+                }
 
                 ColumnLayout {
                     anchors.fill: parent
@@ -63,10 +66,10 @@ ApplicationWindow {
 
                         delegate: Item {
                             width: contactsListView.width
-                            height: 60
+                            height: 30
 
                             Rectangle {
-                                color: index % 2 === 0 ? "#f2f2f2" : "#ffffff"
+                                color: index % 2 === 0 ? "#FFFAFA" : "#FFD4F3"
                                 anchors.fill: parent
 
                                 Text {
@@ -113,9 +116,11 @@ ApplicationWindow {
         Component{
             id: addContactPageComponent
             Rectangle{
-                color: "#dfcef2"
                 anchors.fill: parent
-
+                gradient: Gradient {
+                    GradientStop { position: 0.0; color: "#FFFAFA" }
+                    GradientStop { position: 1.0; color: "#8A2BE2" }
+                }
                 ColumnLayout {
                     anchors.centerIn: parent
                     spacing: 10
