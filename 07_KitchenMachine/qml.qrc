@@ -1,0 +1,9 @@
+<RCC>
+    <qresource prefix="/">
+        <file>main.qml</file>
+        <file>MainForm.ui.qml</file>
+        <file>pages/modesPage.qml</file>
+        <file>pages/sensorsPage.qml</file>
+        <file>pages/settingsPage.qml</file>
+    </qresource>
+</RCC>
