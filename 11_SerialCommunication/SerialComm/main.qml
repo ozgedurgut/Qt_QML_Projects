@@ -1,45 +1,54 @@
 import QtQuick 2.0
 import QtQuick.Controls 2.0
+import QtQuick.Layouts 1.3
 
 ApplicationWindow {
     width: 400
-    height: 300
+    height: 500
     visible: true
+    color: "#E8DADB"
     title: "Serial Communication"
-
-    Column {
-        spacing: 10
+    Item {
+        width: parent.width
+        height: parent.height
         anchors.centerIn: parent
 
-        Text {
-            text: "Enter a message:"
-        }
+        ColumnLayout {
+            spacing: 10
+            anchors.centerIn: parent
+            anchors.horizontalCenter: parent.horizontalCenter
 
-        TextField {
-            id: messageInput
-            width: parent.width
-        }
-
-        Button {
-            text: "Send"
-            onClicked: {
-                serialCommunication.sendData(messageInput.text)
-                messageInput.text = ""
+            Text {
+                text: "Enter a message:"
             }
-        }
 
-        ListView {
-            id: messageList
-            width: parent.width
-            height: 200
-            model: messageModel.messages
-            delegate: Text {
-                text: modelData
+            TextField {
+                id: messageInput
+                width: parent.width
             }
-            onModelChanged: positionViewAtEnd()
+
+            Button {
+                text: "Send"
+                //color: "#727Cf5"
+
+                onClicked: {
+                    serialCommunication.sendData(messageInput.text)
+                    messageInput.text = ""
+                }
+            }
+
+            ListView {
+                id: messageList
+                width: parent.width
+                height: 200
+                model: messageModel.messages
+                delegate: Text {
+                    text: modelData
+                }
+                onModelChanged: positionViewAtEnd()
+            }
         }
     }
-
     Connections {
         target: serialCommunication
         onMessageSent: {
