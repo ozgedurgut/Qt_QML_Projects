@@ -10,13 +10,5 @@ qt6_add_qml_module(content
         Screen01.ui.qml
     RESOURCES
         fonts/fonts.txt
-        images/back_icon.png
-        images/coffee.png
-        images/coffee_logo.png
-        images/cup.png
-        images/milk_icon.png
-        images/ok_icon.png
-        images/setting_icon.png
-        images/water_icon.png
 
 )

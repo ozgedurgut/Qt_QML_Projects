@@ -7,19 +7,21 @@ project(Coffee_MachineApp LANGUAGES CXX)
 
 set(CMAKE_AUTOMOC ON)
 
-find_package(Qt6 6.2 REQUIRED COMPONENTS Core Gui Qml Quick)
+find_package(Qt6 6.2 REQUIRED COMPONENTS Core Gui Qml Quick SerialPort)
 
 if (Qt6_VERSION VERSION_GREATER_EQUAL 6.3)
     qt_standard_project_setup()
 endif()
 
 qt_add_executable(Coffee_MachineApp src/main.cpp
-    coffeemach.h coffeemach.cpp)
+    coffeemach.h coffeemach.cpp
+    messagehandler.h messagehandler.cpp)
 
 qt_add_resources(Coffee_MachineApp "configuration"
     PREFIX "/"
     FILES
-        qtquickcontrols2.conf
+    qtquickcontrols2.conf
+    messagehandler.h messagehandler.cpp
 )
 
 target_link_libraries(Coffee_MachineApp PRIVATE
@@ -27,6 +29,7 @@ target_link_libraries(Coffee_MachineApp PRIVATE
     Qt6::Gui
     Qt6::Qml
     Qt6::Quick
+    Qt6::SerialPort
 )
 
 if (BUILD_QDS_COMPONENTS)
