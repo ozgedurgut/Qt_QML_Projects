@@ -6,7 +6,9 @@ ApplicationWindow {
     width: 800
     height: 480
     title: "Coffee Machine App"
-
+    property var users : [
+        { username: "ozge"}
+    ];
     StackView {
         id: stackView
         initialItem: introPage
@@ -61,6 +63,11 @@ ApplicationWindow {
                         Button {
                             id: usersButton
                             text: qsTr("Users")
+                            Connections{
+                                onClicked: {
+                                    onClicked: stackView.push(userPage);
+                                }
+                            }
 
                         }
 
@@ -172,6 +179,132 @@ ApplicationWindow {
             }
         }
     }
+
+    Component{
+        id: userPage
+        Page{
+            Rectangle {
+
+                Rectangle {
+                    id: rectangle
+                    x: 0
+                    y: 0
+                    width:800
+                    height: 480
+
+                    color: "#d3cfff"
+
+                    TextField {
+                        id: usernameInput
+                        x: 297
+                        y: 44
+                        width: 146
+                        placeholderText: "Username"
+                        height: 40
+                    }
+                    Button {
+                        x: 449
+                        y: 38
+                        width: 86
+                        height: 52
+                        text: "Save"
+                        background: Rectangle {
+                            color: "#18317c"
+                        }
+                        contentItem: Text {
+                            color: "white"
+                            text: "SAVE"
+                        }
+                        Connections{
+                            onClicked: {
+                            label4.text=usernameInput;
+                            }
+                        }
+                    }
+
+                    Button {
+                        id: button
+                        x: 492
+                        y: 325
+                        width: 86
+                        height: 52
+                        text: qsTr("OK")
+                    }
+
+                    Label {
+                        id: label
+                        x: 120
+                        y: 258
+                        width: 122
+                        height: 24
+                        text: qsTr("Users")
+                        font.pointSize: 16
+                    }
+
+                    Label {
+                        id: label1
+                        x: 142
+                        y: 295
+                        width: 23
+                        height: 24
+                        text: qsTr("1.")
+                        font.pointSize: 16
+                    }
+
+                    Label {
+                        id: label2
+                        x: 179
+                        y: 295
+                        width: 210
+                        height: 24
+                        text: qsTr("null")
+                        font.pointSize: 16
+                    }
+
+                    Label {
+                        id: label3
+                        x: 142
+                        y: 325
+                        width: 23
+                        height: 24
+                        text: qsTr("2.")
+                        rotation: 0.434
+                        font.pointSize: 16
+                    }
+
+                    Label {
+                        id: label4
+                        x: 179
+                        y: 325
+                        width: 210
+                        height: 24
+                        text: qsTr("null")
+                        font.pointSize: 16
+                    }
+
+                    Label {
+                        id: label5
+                        x: 142
+                        y: 355
+                        width: 23
+                        height: 24
+                        text: qsTr("3.")
+                        font.pointSize: 16
+                    }
+
+                    Label {
+                        id: label6
+                        x: 179
+                        y: 355
+                        width: 210
+                        height: 24
+                        text: qsTr("null")
+                        font.pointSize: 16
+                    }
+                }
+        }
+    }
+}
 
     Component {
         id: coffeeSettingPage
@@ -475,14 +608,4 @@ ApplicationWindow {
             }
         }
     }
-
-    Connections {
-        target: coffeeMachine
-        onCoffeeSelected: {
-            // Burada seçilen kahve türüne göre işlemleri yapabilirsiniz.
-            // Örneğin, seçilen kahveyi hazırlamak için bir işlev çağırabilirsiniz.
-        }
-    }
-
-
 }
